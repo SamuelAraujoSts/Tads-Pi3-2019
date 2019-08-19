@@ -3,20 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.tads.scorpions.gerenciador.produtos;
+package br.tads.scorpions.controller;
 
 /**
  *
  * @author samuel.asantos8
  */
-public class TesteGit {
+public class ProdutoController {
     
-    public static void main(String[] args){
-        
-        System.out.println("Teste de Commit");
-        
-        
-        
-    }
-     
 }
