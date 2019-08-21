@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class Produto {
 
-    private static int IDProduto;
+    private int IDProduto;
     private String Nome;
     private String Descricao;
     private double PrecoCompra;
@@ -22,8 +22,8 @@ public class Produto {
     private boolean status;
     private Date DataCadastro;
     
-    public Produto(String nome, double PrecoCompra, double PrecoVenda, int Quantidade, boolean status, Date DataCadastro) {
-        
+    public Produto(int IDProduto, String nome, double PrecoCompra, double PrecoVenda, int Quantidade, boolean status, Date DataCadastro) {
+        this.IDProduto = IDProduto;
         this.Nome = nome;
         this.PrecoCompra = PrecoCompra;
         this.PrecoVenda = PrecoVenda;
@@ -40,6 +40,14 @@ public class Produto {
         this.Quantidade = Quantidade;
         this.status = status;
         this.DataCadastro = DataCadastro;
+    }
+
+    public int getIDProduto() {
+        return IDProduto;
+    }
+
+    public void setIDProduto(int IDProduto) {
+        this.IDProduto = IDProduto;
     }
 
     public String getNome() {
