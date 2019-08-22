@@ -8,6 +8,8 @@ package br.tads.scorpions.controller;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import br.tads.scorpions.model.Produto;
+import br.tads.scorpions.dao.ProdutoDAO;
 
 /**
  *
