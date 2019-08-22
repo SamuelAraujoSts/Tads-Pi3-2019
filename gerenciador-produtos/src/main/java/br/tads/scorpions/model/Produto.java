@@ -13,81 +13,84 @@ import java.util.Date;
  */
 public class Produto {
 
-    private int IDProduto;
-    private String Nome;
-    private String Descricao;
-    private double PrecoCompra;
-    private double PrecoVenda;
-    private int Quantidade;
+    private int idProduto;
+    private String nome;
+    private String descricao;
+    private double precoCompra;
+    private double precoVenda;
+    private int quantidade;
     private boolean status;
-    private Date DataCadastro;
+    private Date dataCadastro;
+    private Categoria categoria;
     
-    public Produto(int IDProduto, String nome, double PrecoCompra, double PrecoVenda, int Quantidade, boolean status, Date DataCadastro) {
-        this.IDProduto = IDProduto;
-        this.Nome = nome;
-        this.PrecoCompra = PrecoCompra;
-        this.PrecoVenda = PrecoVenda;
-        this.Quantidade = Quantidade;
+    // Construtor utilizado no método listarProdutos()
+    public Produto(int idProduto, String nome, String descricao, double precoCompra, double PrecoVenda, int Quantidade, boolean status, Date DataCadastro) {
+        this.idProduto = idProduto;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.precoCompra = precoCompra;
+        this.precoVenda = PrecoVenda;
+        this.quantidade = Quantidade;
         this.status = status;
-        this.DataCadastro = DataCadastro;
+        this.dataCadastro = DataCadastro;
     }
 
     public Produto(String nome, String Descricao, double PrecoCompra, double PrecoVenda, int Quantidade, boolean status, Date DataCadastro) {
-        this.Nome = nome;
-        this.Descricao = Descricao;
-        this.PrecoCompra = PrecoCompra;
-        this.PrecoVenda = PrecoVenda;
-        this.Quantidade = Quantidade;
+        this.nome = nome;
+        this.descricao = Descricao;
+        this.precoCompra = PrecoCompra;
+        this.precoVenda = PrecoVenda;
+        this.quantidade = Quantidade;
         this.status = status;
-        this.DataCadastro = DataCadastro;
+        this.dataCadastro = DataCadastro;
     }
 
-    public int getIDProduto() {
-        return IDProduto;
+    public int getIdProduto() {
+        return idProduto;
     }
 
-    public void setIDProduto(int IDProduto) {
-        this.IDProduto = IDProduto;
+    public void setIdProduto(int idProduto) {
+        this.idProduto = idProduto;
     }
 
     public String getNome() {
-        return Nome;
+        return nome;
     }
 
     public void setNome(String Nome) {
-        this.Nome = Nome;
+        this.nome = Nome;
     }
 
     public String getDescricao() {
-        return Descricao;
+        return descricao;
     }
 
     public void setDescricao(String Descricao) {
-        this.Descricao = Descricao;
+        this.descricao = Descricao;
     }
 
     public double getPrecoCompra() {
-        return PrecoCompra;
+        return precoCompra;
     }
 
     public void setPrecoCompra(double PrecoCompra) {
-        this.PrecoCompra = PrecoCompra;
+        this.precoCompra = PrecoCompra;
     }
 
     public double getPrecoVenda() {
-        return PrecoVenda;
+        return precoVenda;
     }
 
     public void setPrecoVenda(double PrecoVenda) {
-        this.PrecoVenda = PrecoVenda;
+        this.precoVenda = PrecoVenda;
     }
 
     public int getQuantidade() {
-        return Quantidade;
+        return quantidade;
     }
 
     public void setQuantidade(int Quantidade) {
-        this.Quantidade = Quantidade;
+        this.quantidade = Quantidade;
     }
 
     public boolean isStatus() {
@@ -99,13 +102,20 @@ public class Produto {
     }
 
     public Date getDataCadastro() {
-        return DataCadastro;
+        return dataCadastro;
     }
 
     public void setDataCadastro(Date DataCadastro) {
-        this.DataCadastro = DataCadastro;
+        this.dataCadastro = DataCadastro;
     }
 
+    public Categoria getCategoria(){
+        return categoria;
+    }
+    
+    public void setCategoria(Categoria categoria){
+        this.categoria = categoria;
+    }
     
     
 }
