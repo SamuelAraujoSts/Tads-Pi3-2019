@@ -42,7 +42,7 @@ public class ProdutoController {
     
     public static ArrayList<Produto> listar()   
             throws SQLException, Exception {
-        ArrayList<Produto> produtos = ProdutoDAO.listarProduto();
+        ArrayList<Produto> produtos = ProdutoDAO.listarProdutos();
        
         return produtos;
     }

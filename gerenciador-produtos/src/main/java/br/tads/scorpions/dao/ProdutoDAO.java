@@ -19,8 +19,8 @@ import java.util.ArrayList;
  */
 public class ProdutoDAO {
 
-    private PreparedStatement instrucao;
-    private ArrayList<Produto> listaDeProdutos;
+    private static PreparedStatement instrucao;
+    private static ArrayList<Produto> listaDeProdutos;
 
     public ProdutoDAO() { // Avisa no console caso o programa consiga se conectar sem problemas ao BD;
         try {
@@ -33,7 +33,7 @@ public class ProdutoDAO {
 
     }
 
-    public boolean incluirProduto(Produto produto) {
+    public static boolean incluirProduto(Produto produto) {
         boolean retorno = false;
 
         String insereProdutoSQL = "INSERT INTO produto(nome, descricao, preco_compra, preco_venda, quantidade, disponivel, dt_cadastro)"
@@ -75,7 +75,7 @@ public class ProdutoDAO {
         }
     }
 
-    public ArrayList<Produto> listarProdutos() {
+    public static ArrayList<Produto> listarProdutos() {
         String codigoSQL
                 = "SELECT "
                 + "produto.id,"
@@ -94,7 +94,7 @@ public class ProdutoDAO {
                 + "INNER JOIN categoria ON "
                 + "categoria.id = produto_categoria.id_categoria";
         
-        this.listaDeProdutos = new ArrayList<Produto>();
+        listaDeProdutos = new ArrayList<Produto>();
 
         try (Connection conexao = new ConnectionFactory().getConnection()) {
             instrucao = conexao.prepareStatement(codigoSQL);
@@ -117,7 +117,7 @@ public class ProdutoDAO {
                 categoria.setNome(resultado.getString("categoria.nome"));
                 produto.setCategoria(categoria);
 
-                this.listaDeProdutos.add(produto);
+                listaDeProdutos.add(produto);
             }
 
             resultado.close();
@@ -131,7 +131,7 @@ public class ProdutoDAO {
         }
     }
 
-    public boolean atualizarProduto(Produto produto) {
+    public static boolean atualizarProduto(Produto produto) {
 
         boolean retorno = false;
 
@@ -184,7 +184,7 @@ public class ProdutoDAO {
 
     }
 
-    public boolean excluirProduto(int i) {
+    public static boolean excluirProduto(int i) {
 
         boolean retorno = false;
 
