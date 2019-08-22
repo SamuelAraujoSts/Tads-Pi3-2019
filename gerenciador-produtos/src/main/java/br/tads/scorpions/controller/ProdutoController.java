@@ -19,7 +19,7 @@ public class ProdutoController {
         
         Produto p = new Produto(pNome, pDscProduto, pPrecCompra, pPrecVenda, pQuant, pStatus, pDataProd);
 
-        return ProdutoDAO.inserir(p);
+        return ProdutoDAO.incluirProduto(p);
     }
 
     
@@ -28,26 +28,26 @@ public class ProdutoController {
         
         Produto p = new Produto(pCodProd, pNome, pDscProduto, pPrecCompra, pPrecVenda, pQuant, pStatus, pDataProd);
 
-        return ProdutoDAO.atualizar(p);
+        return ProdutoDAO.atualizarProduto(p);
     }
     
     
     
     public static boolean excluir(int pCodProd)   throws SQLException, Exception {
-        return ProdutoDAO.excluir(pCodProd);
+        return ProdutoDAO.excluirProduto(pCodProd);
     }
 
     
-    public static ArrayList<Produto> getPesquisa(int id)   
+    public static ArrayList<Produto> listar()   
             throws SQLException, Exception {
-        ArrayList<Produto> produtos = ProdutoDAO.procurar(id);
+        ArrayList<Produto> produtos = ProdutoDAO.listarProduto();
        
         return produtos;
     }
     
-    public static Produto getPesquisaID(int id)   throws SQLException, Exception {
+    /*public static Produto getPesquisaID(int id)   throws SQLException, Exception {
         Produto produtos = ProdutoDAO.procurarID(id);
        
         return produtos;
-    }
+    }*/
 }
