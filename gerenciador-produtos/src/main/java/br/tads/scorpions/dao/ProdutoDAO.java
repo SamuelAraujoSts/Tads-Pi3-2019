@@ -38,12 +38,12 @@ public class ProdutoDAO {
 
         String insereProdutoSQL = "INSERT INTO produto(nome, descricao, preco_compra, preco_venda, quantidade, disponivel, dt_cadastro)"
                 + " VALUES (?,?,?,?,?,?,CURRENT_TIMESTAMP())";
-        
+
         String insereRelacaoCategoriaSQL = "INSERT INTO produto_categoria(id_produto, id_categoria)"
                 + " VALUES ((SELECT LAST_INSERT_ID()), ?) ";
 
         // try-with-resources || Conexão será aberta novamente dentro do "try" e fechada automaticamente ao final dele.
-        try (Connection conexao = new ConnectionFactory().getConnection()) {
+        try ( Connection conexao = new ConnectionFactory().getConnection()) {
             instrucao = conexao.prepareStatement(insereProdutoSQL);
 
             instrucao.setString(1, produto.getNome());
@@ -55,14 +55,16 @@ public class ProdutoDAO {
 
             instrucao.execute();
             instrucao.close();
-            
-            instrucao = conexao.prepareStatement(insereRelacaoCategoriaSQL);
-            
-            Categoria categoria = produto.getCategoria();
-            instrucao.setInt(1, categoria.getIDCategoria()); // Tem que testar isso aqui
-            
-            instrucao.execute();
-            instrucao.close();
+
+            // Caso o produto tenha categoria associada.
+            if (produto.getCategoria() != null) {
+                instrucao = conexao.prepareStatement(insereRelacaoCategoriaSQL);
+                Categoria categoria = produto.getCategoria();
+                instrucao.setInt(1, categoria.getIDCategoria());
+
+                instrucao.execute();
+                instrucao.close();
+            }
 
             retorno = true;
 
@@ -93,10 +95,10 @@ public class ProdutoDAO {
                 + "produto_categoria.id_produto = produto.id "
                 + "INNER JOIN categoria ON "
                 + "categoria.id = produto_categoria.id_categoria";
-        
+
         listaDeProdutos = new ArrayList<Produto>();
 
-        try (Connection conexao = new ConnectionFactory().getConnection()) {
+        try ( Connection conexao = new ConnectionFactory().getConnection()) {
             instrucao = conexao.prepareStatement(codigoSQL);
             ResultSet resultado = instrucao.executeQuery();
 
@@ -111,7 +113,7 @@ public class ProdutoDAO {
                         resultado.getBoolean("produto.disponivel"),
                         resultado.getDate("produto.dt_cadastro")
                 );
-                
+
                 Categoria categoria = new Categoria();
                 categoria.setIDCategoria(resultado.getInt("categoria.id"));
                 categoria.setNome(resultado.getString("categoria.nome"));
@@ -143,12 +145,12 @@ public class ProdutoDAO {
                 + "quantidade = ?,"
                 + "disponivel = ?,"
                 + "WHERE id = ?";
-        
+
         String atualizaCategoriaSQL = "UPDATE produto_categoria SET "
                 + "id_categoria = ? "
                 + "WHERE id_produto = ?";
 
-        try (Connection conexao = new ConnectionFactory().getConnection()) {
+        try ( Connection conexao = new ConnectionFactory().getConnection()) {
             instrucao = conexao.prepareStatement(atualizaProdutoSQL);
 
             instrucao.setString(1, produto.getNome());
@@ -157,25 +159,30 @@ public class ProdutoDAO {
             instrucao.setDouble(4, produto.getPrecoVenda());
             instrucao.setInt(5, produto.getQuantidade());
             instrucao.setBoolean(6, produto.isStatus());
-            // Falta atualização da categoria
 
             int linhasAfetadasProduto = instrucao.executeUpdate();
             instrucao.close();
-            
-            instrucao = conexao.prepareStatement(atualizaCategoriaSQL);
-            
-            Categoria categoria = produto.getCategoria();
-            
-            instrucao.setInt(1, categoria.getIDCategoria());
-            instrucao.setInt(2, produto.getIdProduto());
-            
-            int linhasAfetadasCategoria = instrucao.executeUpdate();
-            instrucao.close();
+
+            int linhasAfetadasCategoria = 0;
+
+            // Caso o produto tenha categoria associada.
+            if (produto.getCategoria() != null) {
+                instrucao = conexao.prepareStatement(atualizaCategoriaSQL);
+
+                Categoria categoria = produto.getCategoria();
+
+                instrucao.setInt(1, categoria.getIDCategoria());
+                instrucao.setInt(2, produto.getIdProduto());
+
+                linhasAfetadasCategoria = instrucao.executeUpdate();
+                instrucao.close();
+
+            }
 
             retorno = linhasAfetadasProduto > 0 || linhasAfetadasCategoria > 0;
 
         } catch (SQLException e) {
-            System.out.println("Erro na operação de Cadastro!");
+            System.out.println("Erro na operação de Atualização!");
             throw new RuntimeException(e);
 
         } finally {
@@ -190,16 +197,15 @@ public class ProdutoDAO {
 
         String deletaProdutoSQL = "DELETE FROM produto WHERE id = ?";
         String deletaRelacaoCategoriaSQL = "DELETE FROM produto_categoria WHERE id_produto = ?";
-        
-        try (Connection conexao = new ConnectionFactory().getConnection()) {
+
+        try ( Connection conexao = new ConnectionFactory().getConnection()) {
             instrucao = conexao.prepareStatement(deletaProdutoSQL);
 
             instrucao.setInt(1, i);
-            // Falta atualização da categoria
 
             int linhasAfetadasProduto = instrucao.executeUpdate();
             instrucao.close();
-            
+
             instrucao = conexao.prepareStatement(deletaRelacaoCategoriaSQL);
 
             instrucao.setInt(1, i);
@@ -207,10 +213,10 @@ public class ProdutoDAO {
             int linhasAfetadasCategoria = instrucao.executeUpdate();
             instrucao.close();
 
-            retorno = linhasAfetadasProduto > 0 && linhasAfetadasCategoria > 0;
+            retorno = linhasAfetadasProduto > 0 || (linhasAfetadasProduto > 0 && linhasAfetadasCategoria > 0);
 
         } catch (SQLException e) {
-            System.out.println("Erro na operação de Cadastro!");
+            System.out.println("Erro na operação de Exclusão!");
             throw new RuntimeException(e);
 
         } finally {
@@ -218,4 +224,5 @@ public class ProdutoDAO {
         }
 
     }
+
 }
