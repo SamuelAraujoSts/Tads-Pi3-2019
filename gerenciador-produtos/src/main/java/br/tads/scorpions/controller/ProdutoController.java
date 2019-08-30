@@ -47,9 +47,17 @@ public class ProdutoController {
         return produtos;
     }
     
-    /*public static Produto getPesquisaID(int id)   throws SQLException, Exception {
+     public static ArrayList<Produto> getPesquisa(String produto,int id)   
+            throws SQLException, Exception {
+        ArrayList<Produto> produtos = ProdutoDAO.procurar(produto,id);
+       
+        return produtos;
+    }
+    
+ 
+     public static Produto getPesquisaID(int id)   throws SQLException, Exception {
         Produto produtos = ProdutoDAO.procurarID(id);
        
         return produtos;
-    }*/
+    }
 }
